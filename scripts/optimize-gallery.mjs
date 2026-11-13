@@ -12,7 +12,7 @@ if (!source) {
   process.exit(1)
 }
 
-const { rows, features = [] } = JSON.parse(
+const { rows, mobileFirst, features = [] } = JSON.parse(
   await readFile(new URL('./gallery-picks.json', import.meta.url), 'utf8'),
 )
 const outDir = path.resolve('public/gallery')
@@ -57,7 +57,7 @@ async function processPhoto(file) {
   return photo
 }
 
-const manifest = { heights: HEIGHTS, rows: [] }
+const manifest = { heights: HEIGHTS, mobileFirst: mobileFirst && slug(mobileFirst), rows: [] }
 for (const row of rows) {
   const out = []
   for (const file of row) out.push(await processPhoto(file))

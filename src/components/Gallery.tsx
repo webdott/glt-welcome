@@ -171,7 +171,9 @@ function MarqueeRow({
 function Swipe({ showButtons }: { showButtons: boolean }) {
   const scroller = useRef<HTMLDivElement>(null)
   const bar = useRef<HTMLSpanElement>(null)
-  const photos = gallery.rows.flat()
+  const all = gallery.rows.flat()
+  const lead = all.filter((p) => p.id === gallery.mobileFirst)
+  const photos = [...lead, ...all.filter((p) => p.id !== gallery.mobileFirst)]
 
   useEffect(() => {
     const el = scroller.current
