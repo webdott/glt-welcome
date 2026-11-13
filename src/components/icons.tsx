@@ -1,4 +1,4 @@
-export { BusIcon, ClockIcon, MusicNotesIcon } from '@phosphor-icons/react/ssr'
+export { BusIcon, ClockIcon, MusicNotesIcon, PauseIcon, PlayIcon } from '@phosphor-icons/react/ssr'
 
 export function Arrow({ dir = 'right' }: { dir?: 'right' | 'left' | 'up' | 'down' | 'up-right' }) {
   const rotate = { right: 0, left: 180, up: -90, down: 90, 'up-right': -45 }[dir]

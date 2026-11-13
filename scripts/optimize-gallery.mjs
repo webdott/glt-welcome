@@ -4,7 +4,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import sharp from 'sharp'
 
-const HEIGHTS = [400, 640, 960]
+const HEIGHTS = [400, 640, 960, 1280]
 
 const source = process.argv[2]
 if (!source) {
