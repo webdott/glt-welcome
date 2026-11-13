@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import { images } from '#/content'
 import { formatCountdown, formatDay, formatTime, nextGathering } from '#/lib/schedule'
 import { EASE_OUT, Lines, useNow } from './motion'
-import { Arrow } from './icons'
+import { Arrow, ClockIcon, MusicNotesIcon } from './icons'
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 16 },
@@ -73,7 +73,10 @@ function NextUp() {
   if (now === null) {
     return (
       <>
-        <p className="mono label-light">Next gathering</p>
+        <p className="mono label-light with-ico">
+          <ClockIcon className="ico" aria-hidden />
+          Next gathering
+        </p>
         <p className="next-title">Sunday · 8:00am & 10:00am</p>
       </>
     )
@@ -81,8 +84,9 @@ function NextUp() {
   const next = nextGathering(now)
   return (
     <>
-      <p className="mono label-light">
-        <span className="live-dot" aria-hidden /> {next.live ? 'Happening now' : 'Next gathering'}
+      <p className="mono label-light with-ico">
+        {next.live ? <MusicNotesIcon className="ico" aria-hidden /> : <ClockIcon className="ico" aria-hidden />}
+        {next.live ? 'Happening now' : 'Next gathering'}
       </p>
       <p className="next-title">
         {next.gathering.name} · {formatDay(next.at)}, {formatTime(next.at)}

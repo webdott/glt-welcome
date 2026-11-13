@@ -16,7 +16,7 @@ import {
 } from '#/lib/schedule'
 import type { ProgrammeStatus } from '#/lib/schedule'
 import { EASE_OUT, ImageReveal, Lines, Reveal, ScrollWords, useNow } from './motion'
-import { Arrow, Plus } from './icons'
+import { Arrow, BusIcon, ClockIcon, MusicNotesIcon, Plus } from './icons'
 
 function SectionLabel({ index, title, aside, dark }: { index: string; title: string; aside?: string; dark?: boolean }) {
   return (
@@ -96,7 +96,7 @@ function WeekRow({ g, index, now, isNext }: { g: Gathering; index: number; now: 
           {g.name}
           {isNext && upcoming && (
             <span className="tag tag-live mono">
-              <span className="live-dot" aria-hidden />
+              {upcoming.live ? <MusicNotesIcon className="ico" aria-hidden /> : <ClockIcon className="ico" aria-hidden />}
               {upcoming.live ? 'Now' : `Next · ${formatCountdown(upcoming.at - (now ?? 0))}`}
             </span>
           )}
@@ -140,7 +140,7 @@ export function Programmes() {
             {fw.transport && (
               <div className="feature-transport">
                 <p className="mono">
-                  <span className="live-dot" aria-hidden /> Transport provided
+                  <BusIcon className="ico ico-lg" aria-hidden /> Transport provided
                 </p>
                 <p>{fw.transport}</p>
               </div>
@@ -220,8 +220,9 @@ function ProgrammeCountdown({ programme: p, now }: { programme: Programme; now: 
   return (
     <>
       {big && <span className="display">{big}</span>}
-      <span className="mono label-light">
-        {status?.kind === 'live' && <span className="live-dot" aria-hidden />} {label}
+      <span className="mono label-light with-ico">
+        {status?.kind === 'live' && <MusicNotesIcon className="ico" aria-hidden />}
+        {label}
       </span>
       {status && status.kind !== 'live' && status.kind !== 'past' && (
         <button type="button" className="btn btn-ghost-light" onClick={() => downloadProgramme(p)}>
