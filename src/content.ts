@@ -118,11 +118,11 @@ export const firstSunday = [
 
 const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}`
 
-// Placeholders from Unsplash (free licence). Swap for real GLT Ife photography.
+// Paths starting with / are real GLT Ife photos from public/photos; the rest are Unsplash placeholders.
 export const images = {
   hero: { src: unsplash('1637615739656-ca10c4285c88'), alt: 'A congregation with hands raised in worship' },
   students: { src: unsplash('1655720348590-c739c860beed'), alt: 'Students with laptops sitting together on campus steps' },
   worship: { src: unsplash('1570786032462-2efc3ca8fccd'), alt: 'Hands raised under warm stage lights' },
-  welcome: { src: unsplash('1604072424771-7300bc5de457'), alt: 'A family seated together in church pews' },
+  welcome: { src: '/photos/pastor', alt: 'A GLT Ile-Ife pastor smiling as he preaches, microphone in hand' },
   visit: { src: unsplash('1648301033733-44554c74ec50'), alt: 'Friends talking together outside a building' },
 }

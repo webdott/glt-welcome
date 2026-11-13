@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { MotionConfig } from 'motion/react'
 import { Header } from '#/components/Header'
+import { Gallery } from '#/components/Gallery'
 import { Hero } from '#/components/Hero'
 import { Closing, FirstSunday, Intro, Programmes, Visit, Week } from '#/components/Sections'
 import { SmoothScroll } from '#/components/SmoothScroll'
@@ -15,6 +16,7 @@ function Home() {
       <main>
         <Hero />
         <Intro />
+        <Gallery />
         <Week />
         <Programmes />
         <FirstSunday />

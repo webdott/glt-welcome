@@ -74,6 +74,10 @@ export function Lines({
   )
 }
 
+// Local photos live at /photos/<name>-<width>.webp; anything else is an Unsplash placeholder.
+const imageUrl = (src: string, w: number) =>
+  src.startsWith('/') ? `${src}-${w}.webp` : `${src}?auto=format&fit=crop&w=${w}&q=75`
+
 /** Wipes up from the bottom while the photo settles from a slight zoom. */
 export function ImageReveal({
   src,
@@ -104,9 +108,9 @@ export function ImageReveal({
         transition={{ duration: 1.2, ease: EASE_IN_OUT }}
       >
       <motion.img
-        src={`${src}?auto=format&fit=crop&w=1600&q=75`}
-        srcSet={[800, 1200, 1600, 2400]
-          .map((w) => `${src}?auto=format&fit=crop&w=${w}&q=75 ${w}w`)
+        src={imageUrl(src, 1600)}
+        srcSet={(src.startsWith('/') ? [800, 1200, 1600] : [800, 1200, 1600, 2400])
+          .map((w) => `${imageUrl(src, w)} ${w}w`)
           .join(', ')}
         sizes={sizes}
         alt={alt}

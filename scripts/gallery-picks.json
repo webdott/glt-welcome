@@ -1,0 +1,42 @@
+{
+  "rows": [
+    [
+      "2R6A0305.jpg",
+      "DSC_9086.jpg",
+      "BEE_7846.jpg",
+      "2R6A9086.jpg",
+      "DSC_4005.jpg",
+      "BEE_7715.jpg",
+      "2R6A0365.jpg",
+      "DSC_4246.jpg",
+      "DSC_9458.jpg",
+      "DSC_4085.jpg",
+      "OTB_2302.jpg",
+      "BEE_7752.jpg",
+      "DSC_9705.jpg"
+    ],
+    [
+      "DSC_4144-Enhanced-NR.jpg",
+      "DSC_9636.jpg",
+      "DSC_9261.jpg",
+      "OTB_2476.jpg",
+      "2R6A0453.jpg",
+      "DSC_4203-Enhanced-NR.jpg",
+      "untitled-17-2.jpg",
+      "DSC_0681.jpg",
+      "DSC_9494.jpg",
+      "DSC_7352.jpg",
+      "OTB_2314.jpg",
+      "DSC_4316.jpg",
+      "BEE_7758.jpg"
+    ]
+  ],
+  "features": [
+    {
+      "file": "DSC_4290.jpg",
+      "name": "pastor",
+      "aspect": 1.3333,
+      "top": 0.12
+    }
+  ]
+}

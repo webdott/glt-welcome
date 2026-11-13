@@ -946,6 +946,164 @@ img {
   gap: 6px;
 }
 
+/* Gallery */
+
+.gallery {
+  overflow-x: clip;
+}
+.gallery-head {
+  align-items: end;
+  row-gap: 24px;
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+.gallery-head .section-title {
+  grid-column: 1 / span 8;
+  margin-bottom: 0;
+}
+.gallery-intro {
+  grid-column: 9 / -1;
+  max-width: 36ch;
+  color: var(--ink-60);
+  text-wrap: pretty;
+}
+.gallery-hint {
+  margin-top: 16px;
+}
+
+.shot {
+  position: relative;
+  flex: none;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--paper-2);
+  background-position: center;
+  background-size: cover;
+  transition: opacity 500ms ease;
+}
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  user-select: none;
+  transition:
+    opacity 700ms ease,
+    transform 900ms var(--ease-out);
+}
+.shot[data-loaded='true'] img {
+  opacity: 1;
+}
+
+.marquee {
+  --row-h: clamp(240px, 24vw, 420px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  height: var(--row-h);
+  will-change: transform;
+}
+.marquee-set {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  padding-right: 12px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .shot {
+    opacity: 0.55;
+  }
+  .marquee .shot:hover {
+    opacity: 1;
+  }
+  .marquee .shot:hover img {
+    transform: scale(1.04);
+  }
+}
+
+.swipe {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--wrap-pad);
+  scrollbar-width: none;
+}
+.swipe::-webkit-scrollbar {
+  display: none;
+}
+.swipe:focus-visible {
+  outline-offset: -2px;
+}
+.swipe-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  height: min(92vw, 460px);
+  padding-inline: var(--wrap-pad);
+}
+.swipe .shot {
+  max-width: calc(100vw - var(--wrap-pad) * 2);
+  scroll-snap-align: start;
+}
+.swipe-foot {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 20px;
+}
+.swipe-progress {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  overflow: hidden;
+  background: var(--rule);
+}
+.swipe-progress span {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0.08);
+  transform-origin: left;
+}
+.swipe-buttons {
+  display: flex;
+  gap: 8px;
+}
+.swipe-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--rule);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+.swipe-btn:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .swipe-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+}
+
+@media (max-width: 899px) {
+  .gallery-head .section-title,
+  .gallery-intro {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Small screens */
 
 @media (max-width: 1100px) {

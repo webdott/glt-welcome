@@ -69,7 +69,7 @@ export function Week() {
   const next = now === null ? null : nextGathering(now)
   return (
     <section id="week" className="section wrap">
-      <SectionLabel index="02" title="Every week" aside="All times WAT" />
+      <SectionLabel index="03" title="Every week" aside="All times WAT" />
       <Lines className="display section-title" lines={['Your week', 'at GLT Ife']} />
       <ul className="week">
         {gatherings.map((g, i) => (
@@ -122,7 +122,7 @@ export function Programmes() {
   return (
     <section id="programmes" className="section section-dark">
       <div className="wrap">
-        <SectionLabel index="03" title="Special programmes" aside="Upcoming" dark />
+        <SectionLabel index="04" title="Special programmes" aside="Upcoming" dark />
       </div>
 
       <article className="feature">
@@ -236,7 +236,7 @@ function ProgrammeCountdown({ programme: p, now }: { programme: Programme; now: 
 export function FirstSunday() {
   return (
     <section id="first-sunday" className="section wrap">
-      <SectionLabel index="04" title="Your first Sunday" aside="For freshers" />
+      <SectionLabel index="05" title="Your first Sunday" aside="For freshers" />
       <div className="grid first">
         <div className="first-aside">
           <Lines className="display section-title" lines={['New here?', 'Here’s how', 'Sunday goes.']} />
@@ -268,7 +268,7 @@ export function Visit() {
         <ImageReveal className="visit-media" src={images.visit.src} alt={images.visit.alt} parallax={10} />
         <div className="visit-scrim" />
         <div className="visit-content wrap">
-          <SectionLabel index="05" title="Find us" aside="Ile-Ife, Osun State" dark />
+          <SectionLabel index="06" title="Find us" aside="Ile-Ife, Osun State" dark />
           <div className="grid visit-grid">
             <Lines className="display visit-title" lines={['Ibadan Road,', 'Ile-Ife']} />
             <Reveal className="visit-col">
