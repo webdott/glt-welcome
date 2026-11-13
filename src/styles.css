@@ -89,7 +89,7 @@ img {
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  line-height: 0.86;
+  line-height: 0.98;
   letter-spacing: -0.005em;
 }
 
@@ -424,8 +424,7 @@ img {
 
 .hero {
   position: relative;
-  height: 100svh;
-  min-height: 640px;
+  min-height: max(100svh, 640px);
   overflow: hidden;
   color: var(--paper);
 }
@@ -460,7 +459,8 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  gap: 32px;
+  min-height: max(100svh, 640px);
   padding: calc(var(--header-h) + 12px) calc(var(--wrap-pad) + var(--frame)) calc(var(--frame) + clamp(20px, 3.5vh, 40px));
 }
 .hero-meta {
@@ -652,7 +652,7 @@ img {
 }
 .feature-title {
   font-size: clamp(76px, 15.8vw, 290px);
-  line-height: 0.84;
+  line-height: 0.96;
   margin: 10px 0 0 -0.035em;
   white-space: nowrap;
 }
@@ -757,7 +757,7 @@ img {
 .card-title {
   margin-top: 18px;
   font-size: clamp(40px, 4.4vw, 76px);
-  line-height: 0.9;
+  line-height: 1;
 }
 .card-body {
   max-width: 42ch;
@@ -903,7 +903,7 @@ img {
   display: flex;
   flex-wrap: wrap;
   font-size: clamp(64px, 15.6vw, 286px);
-  line-height: 0.84;
+  line-height: 0.96;
   margin: 0 0 clamp(64px, 8vw, 128px) -0.035em;
 }
 .closing-word {
@@ -1175,14 +1175,6 @@ img {
 
 /* Phones held sideways */
 @media (max-height: 520px) and (orientation: landscape) {
-  .hero,
-  .hero-content {
-    height: auto;
-    min-height: 100svh;
-  }
-  .hero-content {
-    gap: 32px;
-  }
   .hero-title {
     font-size: min(11vw, 120px);
   }
