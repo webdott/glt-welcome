@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 
 import appCss from '../styles.css?url'
@@ -25,6 +26,8 @@ export const Route = createRootRoute({
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'preconnect', href: 'https://images.unsplash.com' },
     ],
+    // Runs before the browser's own restore on reload, which would otherwise drop you mid-page.
+    scripts: [{ children: "if ('scrollRestoration' in history) history.scrollRestoration = 'manual'" }],
   }),
   shellComponent: RootDocument,
 })
@@ -36,9 +39,26 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <StartAtTop />
         {children}
         <Scripts />
       </body>
     </html>
   )
+}
+
+/**
+ * Full page loads open at the top. The router flips the browser back to automatic scroll
+ * restoration as the page unloads, which makes Safari reopen mid-page, so undo that last.
+ */
+function StartAtTop() {
+  useEffect(() => {
+    const keepManual = () => {
+      history.scrollRestoration = 'manual'
+    }
+    window.addEventListener('pagehide', keepManual)
+    if (!location.hash) window.scrollTo(0, 0)
+    return () => window.removeEventListener('pagehide', keepManual)
+  }, [])
+  return null
 }

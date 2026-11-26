@@ -125,7 +125,7 @@ export function CgpaTab() {
             </button>
           </div>
 
-          <div className="sd-two">
+          <div className="sd-two sd-cgpa-meta">
             <Field label="Semester name" htmlFor="sd-cgpa-sem">
               <input
                 id="sd-cgpa-sem"

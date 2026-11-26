@@ -273,6 +273,9 @@
 .sd-field-end {
   justify-content: flex-end;
 }
+.sd-field-end .btn {
+  height: 46px;
+}
 .sd-label {
   color: var(--ink-60);
 }
@@ -321,6 +324,24 @@ select.sd-input {
 }
 .sd-input-short {
   width: 96px;
+}
+/* iOS gives native date and time pickers a fixed minimum width and centred text;
+   reset them so they fit their column and line up with the other fields. */
+@supports (-webkit-touch-callout: none) {
+  .sd-input[type='date'],
+  .sd-input[type='time'] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    line-height: 44px;
+    text-align: left;
+  }
+  .sd-input::-webkit-date-and-time-value {
+    margin: 0;
+    text-align: left;
+  }
 }
 .sd-input-quiet {
   height: 36px;
@@ -1405,7 +1426,22 @@ select.sd-input {
   }
 }
 
+/* iPhone Safari zooms into any field set below 16px when it's tapped. */
+@media (max-width: 899px) {
+  .sd input,
+  .sd select,
+  .sd textarea {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 560px) {
+  .sd-cgpa-meta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sd-cgpa-meta .btn {
+    width: 100%;
+  }
   .sd-cgpa-head {
     display: none;
   }
