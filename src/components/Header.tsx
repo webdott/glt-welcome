@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { EASE_OUT } from './motion'
 
@@ -41,6 +42,9 @@ export function Header() {
             {l.label}
           </a>
         ))}
+        <Link to="/study" search={{ tab: 'timetable' }} className="nav-link">
+          Study space
+        </Link>
       </nav>
       <a href="#visit" className="btn btn-primary btn-sm">
         Plan a visit

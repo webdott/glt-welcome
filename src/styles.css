@@ -1289,6 +1289,107 @@ img {
   }
 }
 
+/* Study space teaser */
+
+.study-teaser {
+  row-gap: 40px;
+  align-items: start;
+}
+.study-teaser-intro {
+  grid-column: 1 / span 6;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.study-teaser-intro .section-title {
+  margin-bottom: 0;
+  font-size: clamp(52px, 6.4vw, 112px);
+}
+.study-teaser-lede {
+  max-width: 44ch;
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.45;
+  color: var(--ink-60);
+  text-wrap: pretty;
+}
+.study-teaser-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+}
+.study-teaser-stats {
+  color: var(--green-press);
+}
+.study-tools {
+  grid-column: 8 / -1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--rule);
+}
+.study-tool {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 20px;
+  gap: 16px;
+  align-items: start;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+.study-tool::before {
+  content: '';
+  position: absolute;
+  inset: -1px calc(var(--gutter) * -0.5) 0;
+  z-index: -1;
+  background: var(--ink);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 450ms var(--ease-out);
+}
+.study-tool-index {
+  padding-top: 6px;
+  opacity: 0.6;
+}
+.study-tool-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.study-tool-name {
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 520;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.study-tool-body {
+  opacity: 0.68;
+  text-wrap: pretty;
+}
+.study-tool .arrow {
+  margin-top: 8px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .study-tool:hover {
+    color: var(--paper);
+  }
+  .study-tool:hover::before {
+    clip-path: inset(0 0 0 0);
+  }
+  .study-tool:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+}
+@media (max-width: 899px) {
+  .study-teaser-intro,
+  .study-tools {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Small screens */
 
 @media (max-width: 1100px) {

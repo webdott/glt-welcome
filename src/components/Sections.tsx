@@ -18,7 +18,7 @@ import type { ProgrammeStatus } from '#/lib/schedule'
 import { EASE_OUT, ImageReveal, Lines, Reveal, ScrollWords, useNow } from './motion'
 import { Arrow, BusIcon, ClockIcon, MusicNotesIcon, Plus } from './icons'
 
-function SectionLabel({ index, title, aside, dark }: { index: string; title: string; aside?: string; dark?: boolean }) {
+export function SectionLabel({ index, title, aside, dark }: { index: string; title: string; aside?: string; dark?: boolean }) {
   return (
     <Reveal className={`section-label mono ${dark ? 'is-dark' : ''}`}>
       <span>
@@ -268,7 +268,7 @@ export function Visit() {
         <ImageReveal className="visit-media" src={images.visit.src} alt={images.visit.alt} parallax={10} />
         <div className="visit-scrim" />
         <div className="visit-content wrap">
-          <SectionLabel index="06" title="Find us" aside="Ile-Ife, Osun State" dark />
+          <SectionLabel index="07" title="Find us" aside="Ile-Ife, Osun State" dark />
           <div className="grid visit-grid">
             <Lines className="display visit-title" lines={['Ibadan Road,', 'Ile-Ife']} />
             <Reveal className="visit-col">
