@@ -70,31 +70,45 @@ export const gatherings: Gathering[] = [
 
 export type Programme = {
   title: string
+  subtitle?: string
   kicker: string
   // Provisional dates render with a "To be confirmed" tag. Flip to true once announced.
   confirmed: boolean
   startsAt: string
+  doorsAt?: string
   durationHours: number
   venue: string
   address: string
   mapsUrl: string
   transport?: string
+  entry?: string
+  ticket?: { label: string; href: string }
+  website?: string
   blurb: string
+  image: { src: string; alt: string }
 }
 
-export const finestWorship: Programme = {
-  title: 'Finest Worship',
-  kicker: 'Special programme',
+// The programme featured on the homepage. Swap it out once it has passed.
+export const featured: Programme = {
+  title: 'Moshia',
+  subtitle: 'The Saviour Is Born',
+  kicker: 'Christmas carol · A theatre experience',
   confirmed: true,
-  startsAt: '2026-11-20T22:00:00+01:00',
-  durationHours: 7,
-  venue: 'GLT Campground',
-  address: 'Ijebu-Ode Road, off Lagos-Ibadan Expressway, Ibadan, Oyo State',
-  mapsUrl:
-    'https://www.google.com/maps/search/?api=1&query=GLT+Campground+Ijebu-Ode+Road+Lagos-Ibadan+Expressway+Ibadan',
-  transport: 'Transportation will be provided from Ile-Ife, so you don’t need to sort out your own way to Ibadan.',
+  startsAt: '2026-12-18T16:00:00+01:00',
+  doorsAt: '2026-12-18T15:15:00+01:00',
+  durationHours: 4,
+  venue: 'The Amphitheatre, OAU',
+  address: 'Obafemi Awolowo University campus, Ile-Ife',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Amphitheatre+Obafemi+Awolowo+University+Ile-Ife',
+  entry: 'Entry is free, but seats are limited. Register and your ticket lands in your email straight away. When seats run out, registrations go to a waitlist.',
+  ticket: { label: 'Get your free ticket', href: 'https://moshia.gltifeevents.com/register' },
+  website: 'https://moshia.gltifeevents.com',
   blurb:
-    'A whole night of worship at the GLT Campground in Ibadan, from 10pm till 5am. No rush, no programme to get through: just songs, Scripture and a crowd of people who came to meet with God.',
+    'Our Christmas carol, staged like a film and sung like a carol service. MOSHIA, Hebrew for “Saviour”, tells the story of the promised King, with choirs, candles and the carols everyone knows by heart.',
+  image: {
+    src: 'https://images.unsplash.com/photo-1765194493210-e2fb1c61a941',
+    alt: 'A nativity scene of Mary, the wise men and the manger beside a Christmas tree in lights',
+  },
 }
 
 export const firstSunday = [
@@ -122,7 +136,6 @@ const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}`
 export const images = {
   hero: { src: unsplash('1637615739656-ca10c4285c88'), alt: 'A congregation with hands raised in worship' },
   students: { src: unsplash('1655720348590-c739c860beed'), alt: 'Students with laptops sitting together on campus steps' },
-  worship: { src: unsplash('1570786032462-2efc3ca8fccd'), alt: 'Hands raised under warm stage lights' },
   welcome: { src: '/photos/pastor', alt: 'A GLT Ile-Ife pastor smiling as he preaches, microphone in hand' },
   visit: { src: unsplash('1648301033733-44554c74ec50'), alt: 'Friends talking together outside a building' },
 }

@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react'
 import { useRef } from 'react'
-import { church, finestWorship, firstSunday, gatherings, images } from '#/content'
+import { church, featured, firstSunday, gatherings, images } from '#/content'
 import type { Gathering, Programme } from '#/content'
 import {
   downloadGathering,
@@ -16,7 +16,7 @@ import {
 } from '#/lib/schedule'
 import type { ProgrammeStatus } from '#/lib/schedule'
 import { EASE_OUT, ImageReveal, Lines, Reveal, ScrollWords, useNow } from './motion'
-import { Arrow, BusIcon, ClockIcon, MusicNotesIcon, Plus } from './icons'
+import { Arrow, BusIcon, ClockIcon, MusicNotesIcon, Plus, TicketIcon } from './icons'
 
 export function SectionLabel({ index, title, aside, dark }: { index: string; title: string; aside?: string; dark?: boolean }) {
   return (
@@ -115,7 +115,7 @@ function WeekRow({ g, index, now, isNext }: { g: Gathering; index: number; now: 
 
 export function Programmes() {
   const now = useNow()
-  const fw = finestWorship
+  const fw = featured
   const at = Date.parse(fw.startsAt)
   const sms = now === null ? null : nextFor(gatherings.find((g) => g.recurrence === 'last-sun')!, now)
 
@@ -127,18 +127,27 @@ export function Programmes() {
 
       <article className="feature">
         <div className="feature-stage">
-          <ImageReveal className="feature-media" src={images.worship.src} alt={images.worship.alt} parallax={8} />
+          <ImageReveal className="feature-media" src={fw.image.src} alt={fw.image.alt} parallax={8} />
           <div className="feature-overlay wrap">
             <p className="mono label-light">{fw.kicker}</p>
             <Lines as="h2" className="display feature-title" lines={[fw.title]} />
+            {fw.subtitle && <p className="display feature-sub">{fw.subtitle}</p>}
           </div>
         </div>
 
         <div className="wrap grid feature-info">
           <Reveal className="feature-blurb">
             <p>{fw.blurb}</p>
+            {fw.entry && (
+              <div className="feature-note">
+                <p className="mono">
+                  <TicketIcon className="ico ico-lg" aria-hidden /> Free entry
+                </p>
+                <p>{fw.entry}</p>
+              </div>
+            )}
             {fw.transport && (
-              <div className="feature-transport">
+              <div className="feature-note">
                 <p className="mono">
                   <BusIcon className="ico ico-lg" aria-hidden /> Transport provided
                 </p>
@@ -158,14 +167,22 @@ export function Programmes() {
             <p>
               {formatTime(at)} – {formatTime(at + fw.durationHours * 3_600_000)}
             </p>
+            {fw.doorsAt && <p className="feature-aside">Doors open {formatTime(Date.parse(fw.doorsAt))}</p>}
           </Reveal>
           <Reveal className="feature-meta feature-where" delay={0.18}>
             <p className="mono label-light">Where</p>
             <p className="feature-venue">{fw.venue}</p>
             <p className="feature-address">{fw.address}</p>
-            <a className="btn-text" href={fw.mapsUrl} target="_blank" rel="noreferrer">
-              Directions <Arrow dir="up-right" />
-            </a>
+            <div className="feature-links">
+              <a className="btn-text" href={fw.mapsUrl} target="_blank" rel="noreferrer">
+                Directions <Arrow dir="up-right" />
+              </a>
+              {fw.website && (
+                <a className="btn-text" href={fw.website} target="_blank" rel="noreferrer">
+                  Event site <Arrow dir="up-right" />
+                </a>
+              )}
+            </div>
           </Reveal>
           <Reveal className="feature-count" delay={0.24}>
             <ProgrammeCountdown programme={fw} now={now} />
@@ -225,9 +242,16 @@ function ProgrammeCountdown({ programme: p, now }: { programme: Programme; now: 
         {label}
       </span>
       {status && status.kind !== 'live' && status.kind !== 'past' && (
-        <button type="button" className="btn btn-ghost-light" onClick={() => downloadProgramme(p)}>
-          <Plus /> Save the date
-        </button>
+        <div className="feature-actions">
+          {p.ticket && (
+            <a className="btn btn-primary" href={p.ticket.href} target="_blank" rel="noreferrer">
+              {p.ticket.label} <Arrow dir="up-right" />
+            </a>
+          )}
+          <button type="button" className="btn btn-ghost-light" onClick={() => downloadProgramme(p)}>
+            <Plus /> Save the date
+          </button>
+        </div>
       )}
     </>
   )
@@ -374,6 +398,15 @@ export function Closing() {
             </a>
           </div>
         </div>
+
+        <img
+          className="footer-logo"
+          src="/brand/glt-ile-ife-extension-paper.svg"
+          alt="God’s Love Tabernacle International Church, Ile-Ife Extension"
+          width={756}
+          height={198}
+          loading="lazy"
+        />
 
         <div className="footer-base mono">
           <span>© {new Date().getFullYear()} God’s Love Tabernacle, Ile-Ife</span>

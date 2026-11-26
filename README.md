@@ -12,7 +12,8 @@ pnpm build
 
 Service times, programmes, contacts and photos all live in `src/content.ts`.
 
-- **Finest Worship:** set `startsAt`, then set `confirmed: true` to remove the "To be confirmed" tag.
+- **Featured programme:** `featured` drives section 04 (currently the MOSHIA carol). Once it has passed, replace it with the next one; `transport`, `entry`, `ticket` and `doorsAt` are optional. Set `confirmed: false` to show a "To be confirmed" tag.
+- **Logo:** the source is `brand/glt-ile-ife-logo.svg`. `pnpm social` swaps its bottom line for "ILE-IFE EXTENSION" (`scripts/logo.mjs`, which reuses the logo's own letters and draws the missing -, X and T), then writes the lockup to `public/brand/`, the favicons and the share images. The headers paint `public/brand/glt-ile-ife-extension.svg` in the text colour.
 - **Photos:** paths starting with `/` are real GLT Ife photos, made by `pnpm gallery <folder>` from the `features` list in `scripts/gallery-picks.json` into `public/photos/<name>-<width>.webp`. The rest are still Unsplash placeholders.
 
 The "next gathering" countdown and "Add to calendar" files are worked out from `gatherings` in WAT. On the last Sunday of a month, SMS replaces both regular services.

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { MotionConfig, motion } from 'motion/react'
 import { Link } from '@tanstack/react-router'
 import { BellIcon, GearSixIcon, QuestionIcon } from '@phosphor-icons/react/ssr'
+import { Logo } from '#/components/Logo'
 import { DAILY_GOALS } from '../timer'
 import { StudyProvider, TABS, useStudy } from './context'
 import type { Tab } from './context'
@@ -46,8 +47,8 @@ function Shell() {
     <div className="sd">
       <header className="sd-header">
         <div className="sd-header-row">
-          <Link to="/" className="wordmark" aria-label="GLT Ile-Ife home">
-            <span className="wordmark-glt">GLT</span>
+          <Link to="/" className="wordmark" aria-label="GLT Ile-Ife Extension home">
+            <Logo />
             <span className="wordmark-branch">Study space</span>
           </Link>
           <nav ref={navRef} className="sd-tabs" aria-label="Study tools">

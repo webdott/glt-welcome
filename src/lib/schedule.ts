@@ -195,10 +195,10 @@ export function downloadProgramme(p: Programme) {
     `glt-ife-${p.title.toLowerCase().replace(/\s+/g, '-')}.ics`,
     ics({
       uid: p.title,
-      title: `${p.title} · GLT Ile-Ife`,
+      title: p.subtitle ? `${p.title}: ${p.subtitle}` : `${p.title} · GLT Ile-Ife`,
       start,
       end: start + p.durationHours * 3_600_000,
-      description: [p.blurb, p.transport].filter(Boolean).join(' '),
+      description: [p.blurb, p.doorsAt && `Doors open ${formatTime(Date.parse(p.doorsAt))}.`, p.transport, p.entry, p.ticket?.href].filter(Boolean).join(' '),
       location: `${p.venue}, ${p.address}`,
     }),
   )

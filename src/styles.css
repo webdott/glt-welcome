@@ -18,6 +18,7 @@
   --wrap-pad: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
   --frame: 8px;
   --header-h: 64px;
+  --header-gap: 16px;
   --section: clamp(96px, 12vw, 184px);
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -79,7 +80,7 @@ img {
 .hero :focus-visible,
 .visit-stage :focus-visible,
 .closing :focus-visible,
-.header:not([data-solid='true']) :focus-visible {
+.header:not([data-state='solid']) :focus-visible {
   outline-color: var(--green-soft);
 }
 
@@ -347,6 +348,7 @@ img {
   height: var(--header-h);
   padding: 0 calc(var(--wrap-pad) + var(--frame));
   color: var(--paper);
+  transform: translateY(var(--header-gap));
   transition:
     transform 500ms var(--ease-out),
     color 300ms ease,
@@ -355,19 +357,35 @@ img {
 .header::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 var(--frame);
   z-index: -1;
-  background: var(--paper);
-  border-bottom: 1px solid var(--rule);
   opacity: 0;
-  transition: opacity 300ms ease;
+  transition:
+    opacity 300ms ease,
+    inset 300ms ease,
+    background-color 300ms ease;
 }
-.header[data-solid='true'] {
+/* Over the hero, once it starts scrolling: a dark bar, so the title never shows through the logo. */
+.header[data-state='float'] {
+  transform: none;
+}
+.header[data-state='float']::before {
+  inset: 0;
+  opacity: 1;
+  background: rgb(14 21 12 / 0.84);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+.header[data-state='solid'] {
+  transform: none;
   color: var(--ink);
   padding-inline: var(--wrap-pad);
 }
-.header[data-solid='true']::before {
+.header[data-state='solid']::before {
+  inset: 0;
   opacity: 1;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
 }
 .header[data-hidden='true'] {
   transform: translateY(-100%);
@@ -380,11 +398,13 @@ img {
   color: inherit;
   text-decoration: none;
 }
-.wordmark-glt {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1;
-  letter-spacing: 0.01em;
+.logo {
+  display: block;
+  flex-shrink: 0;
+  height: 46px;
+  aspect-ratio: 755.97 / 198.28;
+  background: currentColor;
+  mask: url('/brand/glt-ile-ife-extension.svg') center / contain no-repeat;
 }
 .wordmark-branch {
   padding-left: 10px;
@@ -461,7 +481,7 @@ img {
   justify-content: space-between;
   gap: 32px;
   min-height: max(100svh, 640px);
-  padding: calc(var(--header-h) + 12px) calc(var(--wrap-pad) + var(--frame)) calc(var(--frame) + clamp(20px, 3.5vh, 40px));
+  padding: calc(var(--header-h) + var(--header-gap) + 12px) calc(var(--wrap-pad) + var(--frame)) calc(var(--frame) + clamp(20px, 3.5vh, 40px));
 }
 .hero-meta {
   display: flex;
@@ -656,6 +676,12 @@ img {
   margin: 10px 0 0 -0.035em;
   white-space: nowrap;
 }
+.feature-sub {
+  margin-top: clamp(4px, 0.6vw, 10px);
+  font-size: clamp(26px, 3.4vw, 60px);
+  line-height: 1;
+  color: var(--green-soft);
+}
 .feature-info {
   row-gap: 28px;
   align-items: start;
@@ -696,21 +722,31 @@ img {
   opacity: 0.72;
   text-wrap: pretty;
 }
-.feature-where .btn-text {
+.feature-meta .feature-aside {
+  margin-top: 6px;
+  opacity: 0.72;
+}
+.feature-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
   margin-top: 6px;
 }
-.feature-transport {
+.feature-note {
   margin-top: clamp(28px, 3vw, 40px);
   padding-top: 14px;
   border-top: 1px solid var(--rule-light);
 }
-.feature-transport .mono {
+.feature-note + .feature-note {
+  margin-top: 24px;
+}
+.feature-note .mono {
   display: flex;
   align-items: center;
   gap: 6px;
   color: var(--green-soft);
 }
-.feature-transport p + p {
+.feature-note p + p {
   margin-top: 8px;
   font-size: 17px;
   line-height: 1.5;
@@ -738,7 +774,10 @@ img {
 .feature-count .mono {
   padding-bottom: 4px;
 }
-.feature-count .btn {
+.feature-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-left: auto;
 }
 
@@ -931,11 +970,17 @@ img {
 .footer-col .mono {
   margin-bottom: 10px;
 }
+.footer-logo {
+  display: block;
+  width: auto;
+  height: clamp(56px, 6vw, 88px);
+  margin-top: clamp(72px, 9vw, 144px);
+}
 .footer-base {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: clamp(72px, 9vw, 144px);
+  margin-top: clamp(28px, 3vw, 40px);
   padding-top: 14px;
   border-top: 1px solid var(--rule-light);
   color: rgb(247 245 239 / 0.66);
@@ -1410,6 +1455,7 @@ img {
   :root {
     --frame: 6px;
     --header-h: 60px;
+    --header-gap: 10px;
   }
   .nav,
   .hide-sm {
@@ -1511,9 +1557,12 @@ img {
   .feature-time {
     grid-column: 7 / span 6;
   }
-  .feature-count .btn {
+  .feature-actions {
     margin-left: 0;
     width: 100%;
+  }
+  .feature-actions .btn {
+    flex: 1 1 100%;
   }
   .card {
     min-height: 0;
