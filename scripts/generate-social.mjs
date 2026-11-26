@@ -1,8 +1,9 @@
-// Renders the share images and favicons into public/. Usage: pnpm social
+// Renders the share images, favicons and recoloured logos into public/. Usage: pnpm social
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import satori from 'satori'
 import sharp from 'sharp'
+import { extensionLockup } from './logo.mjs'
 
 const INK = '#0e150c'
 const PAPER = '#f7f5ef'
@@ -35,6 +36,23 @@ async function photo(file, width, height) {
 
 const out = path.resolve('public')
 await mkdir(path.join(out, 'og'), { recursive: true })
+await mkdir(path.join(out, 'brand'), { recursive: true })
+
+/* Logo: the Ile-Ife Extension lockup, recoloured for each use from the near-black source. */
+
+const logoSource = await extensionLockup()
+const markPath = logoSource.match(/<path d="([^"]+)"/)[1]
+const lockup = (color) => logoSource.replaceAll('#231f20', color).replace('<path d="', `<path fill="${color}" d="`)
+const markSvg = (color) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 269.2 198.28"><path fill="${color}" transform="translate(-153.4 -430.18)" d="${markPath}"/></svg>`
+const dataUri = (svg) => `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`
+const LOCKUP_RATIO = 755.97 / 198.28
+const MARK_RATIO = 269.2 / 198.28
+const img = (src, width, height) => ({ type: 'img', props: { src, width, height, style: { width, height } } })
+
+await writeFile(path.join(out, 'brand', 'glt-ile-ife-extension.svg'), lockup('#000'))
+await writeFile(path.join(out, 'brand', 'glt-ile-ife-extension-paper.svg'), lockup(PAPER))
+await writeFile(path.join(out, 'brand', 'glt-ile-ife-extension-ink.svg'), lockup(INK))
 
 /* Share images, 1200 × 630 */
 
@@ -45,7 +63,7 @@ const home = h(
   h(
     'div',
     { flexDirection: 'column', justifyContent: 'space-between', width: 730, padding: '56px 56px 52px' },
-    h('div', { justifyContent: 'space-between', borderTop: `1px solid rgba(247,245,239,0.2)`, paddingTop: 16 }, mono('God’s Love Tabernacle', { color: MUTED_ON_INK }), mono('Ile-Ife', { color: MUTED_ON_INK })),
+    img(dataUri(lockup(PAPER)), Math.round(76 * LOCKUP_RATIO), 76),
     display(['Welcome home,', 'fresher.'], { fontSize: 112 }),
     h('div', { alignItems: 'center', gap: 16 }, square(16, GREEN), mono('Sun 8:00 & 10:00 · Wed 5:30pm · Ibadan Road', { fontSize: 19 })),
   ),
@@ -55,7 +73,7 @@ const home = h(
 const study = h(
   'div',
   { flexDirection: 'column', justifyContent: 'space-between', width: 1200, height: 630, padding: '56px 64px 52px', background: PAPER, color: INK },
-  h('div', { justifyContent: 'space-between', borderTop: `1px solid rgba(14,21,12,0.18)`, paddingTop: 16 }, mono('GLT Ile-Ife · Study space', { color: MUTED_ON_PAPER }), mono('Free for OAU students', { color: MUTED_ON_PAPER })),
+  h('div', { justifyContent: 'space-between', borderTop: `1px solid rgba(14,21,12,0.18)`, paddingTop: 16 }, h('div', { alignItems: 'center', gap: 14 }, img(dataUri(markSvg(INK)), Math.round(28 * MARK_RATIO), 28), mono('GLT Ile-Ife · Study space', { color: MUTED_ON_PAPER })), mono('Free for OAU students', { color: MUTED_ON_PAPER })),
   display(['Your semester,', 'organised.'], { fontSize: 136 }),
   h(
     'div',
@@ -68,10 +86,12 @@ const study = h(
 await writeFile(path.join(out, 'og', 'home.jpg'), await jpeg(await render(home, 1200, 630)))
 await writeFile(path.join(out, 'og', 'study.png'), await png(await render(study, 1200, 630), 1200, 630))
 
-/* Icons: the GLT wordmark on ink */
+/* Icons: the GLT monogram on ink */
 
-const mark = (size, { padding = 0.12, transparentCorners = false } = {}) =>
-  h(
+const paperMark = dataUri(markSvg(PAPER))
+const mark = (size, { padding = 0.14, transparentCorners = false } = {}) => {
+  const width = Math.round(size * (1 - padding * 2))
+  return h(
     'div',
     {
       width: size,
@@ -80,10 +100,10 @@ const mark = (size, { padding = 0.12, transparentCorners = false } = {}) =>
       justifyContent: 'center',
       background: INK,
       borderRadius: transparentCorners ? size * 0.18 : 0,
-      padding: size * padding,
     },
-    h('div', { fontFamily: 'Anton', fontSize: size * 0.5, lineHeight: 1, color: PAPER, letterSpacing: size * 0.005 }, 'GLT'),
+    img(paperMark, width, Math.round(width / MARK_RATIO)),
   )
+}
 
 const svgIcon = await render(mark(64, { transparentCorners: true }), 64, 64)
 await writeFile(path.join(out, 'favicon.svg'), svgIcon)
@@ -93,7 +113,7 @@ await writeFile(path.join(out, 'apple-touch-icon.png'), await icon(180))
 await writeFile(path.join(out, 'icon-192.png'), await icon(192, { transparentCorners: true }))
 await writeFile(path.join(out, 'icon-512.png'), await icon(512, { transparentCorners: true }))
 // Maskable icons get cropped to a circle or squircle, so keep the mark inside the middle 80%.
-await writeFile(path.join(out, 'icon-maskable-512.png'), await png(await render(mark(512, { padding: 0.22 }), 512, 512), 512, 512))
+await writeFile(path.join(out, 'icon-maskable-512.png'), await png(await render(mark(512, { padding: 0.24 }), 512, 512), 512, 512))
 
 // favicon.ico holding 16, 32 and 48 px PNGs, for browsers and tools that only look for it.
 const icoSizes = [16, 32, 48]
@@ -136,4 +156,4 @@ await writeFile(
   )}\n`,
 )
 
-console.log('Share images → public/og, icons and manifest → public')
+console.log('Share images → public/og, logos → public/brand, icons and manifest → public')
