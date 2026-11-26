@@ -45,7 +45,7 @@ export function StudyTeaser() {
             </p>
           </Reveal>
           <Reveal className="study-teaser-actions" delay={0.08}>
-            <Link to="/study" search={{ tab: 'timetable' }} className="btn btn-primary">
+            <Link to="/study" className="btn btn-primary">
               Open the study space <Arrow />
             </Link>
             {stats && (

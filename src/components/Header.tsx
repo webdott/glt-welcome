@@ -42,7 +42,7 @@ export function Header() {
             {l.label}
           </a>
         ))}
-        <Link to="/study" search={{ tab: 'timetable' }} className="nav-link">
+        <Link to="/study" className="nav-link">
           Study space
         </Link>
       </nav>

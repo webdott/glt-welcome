@@ -10,7 +10,8 @@
     "generate-routes": "vite build",
     "build": "vite build",
     "preview": "vite preview",
-    "gallery": "node scripts/optimize-gallery.mjs"
+    "gallery": "node scripts/optimize-gallery.mjs",
+    "social": "node scripts/generate-social.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
@@ -33,6 +34,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "satori": "^0.63.2",
     "sharp": "^0.35.5",
     "typescript": "^6.0.2",
     "vite": "^8.0.0"

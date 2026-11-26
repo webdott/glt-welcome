@@ -28,3 +28,8 @@ A study app for students, ported from Focus Garden with the owner's permission: 
 - Logic lives in `src/study/*.ts` (timer, plan, cgpa, streak, buddy, files, sound); the interface is in `src/study/ui/`, styled by `study.css`, which only loads on `/study`.
 - Everything is saved in the browser's localStorage on the student's device. There is no server or account.
 - Study Buddy reads files on the device. pdf.js and mammoth are bundled but only load when a PDF or .docx is opened. The photo reader (Tesseract) fetches its engine and English language data from the jsDelivr CDN the first time a photo is read; the photo itself never leaves the device.
+
+## Sharing and icons
+
+- Share cards live in `public/og/` (`home.jpg`, `study.png`, 1200×630) and the favicons, app icons and `site.webmanifest` in `public/`. They're generated from `scripts/generate-social.mjs`; edit that and run `pnpm social` to change them.
+- Share previews need absolute URLs. On Vercel the production domain is used automatically. If you add a custom domain, set `SITE_URL` (for example `https://gltife.org`) in the Vercel project's environment variables so previews and canonical links use it.
