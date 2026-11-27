@@ -86,38 +86,37 @@ const study = h(
 await writeFile(path.join(out, 'og', 'home.jpg'), await jpeg(await render(home, 1200, 630)))
 await writeFile(path.join(out, 'og', 'study.png'), await png(await render(study, 1200, 630), 1200, 630))
 
-/* Icons: the GLT monogram on ink */
+/* Icons: the GLT monogram on its own in the browser tab; app icons sit it on paper */
 
-const paperMark = dataUri(markSvg(PAPER))
-const mark = (size, { padding = 0.14, transparentCorners = false } = {}) => {
-  const width = Math.round(size * (1 - padding * 2))
-  return h(
-    'div',
-    {
-      width: size,
-      height: size,
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: INK,
-      borderRadius: transparentCorners ? size * 0.18 : 0,
-    },
-    img(paperMark, width, Math.round(width / MARK_RATIO)),
-  )
+// A square around the monogram, so it can be centred at any size.
+const MARK_W = 269.2
+const MARK_H = 198.28
+const squareMark = (fill, { pad = 0.04, style = '' } = {}) => {
+  const side = MARK_W * (1 + pad * 2)
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${side.toFixed(2)} ${side.toFixed(2)}">${style}<path fill="${fill}" transform="translate(${(side - MARK_W) / 2 - 153.4} ${(side - MARK_H) / 2 - 430.18})" d="${markPath}"/></svg>`
 }
 
-const svgIcon = await render(mark(64, { transparentCorners: true }), 64, 64)
-await writeFile(path.join(out, 'favicon.svg'), svgIcon)
+// Ink in light tabs, paper in dark ones.
+await writeFile(
+  path.join(out, 'favicon.svg'),
+  squareMark(INK, { style: `<style>@media (prefers-color-scheme: dark) { path { fill: ${PAPER} } }</style>` }),
+)
 
-const icon = async (size, opts) => png(await render(mark(size, opts), size, size), size, size)
+const inkMark = dataUri(markSvg(INK))
+const appIcon = (size, padding) => {
+  const width = Math.round(size * (1 - padding * 2))
+  return h('div', { width: size, height: size, alignItems: 'center', justifyContent: 'center', background: PAPER }, img(inkMark, width, Math.round(width / MARK_RATIO)))
+}
+const icon = async (size, padding = 0.16) => png(await render(appIcon(size, padding), size, size), size, size)
 await writeFile(path.join(out, 'apple-touch-icon.png'), await icon(180))
-await writeFile(path.join(out, 'icon-192.png'), await icon(192, { transparentCorners: true }))
-await writeFile(path.join(out, 'icon-512.png'), await icon(512, { transparentCorners: true }))
+await writeFile(path.join(out, 'icon-192.png'), await icon(192))
+await writeFile(path.join(out, 'icon-512.png'), await icon(512))
 // Maskable icons get cropped to a circle or squircle, so keep the mark inside the middle 80%.
-await writeFile(path.join(out, 'icon-maskable-512.png'), await png(await render(mark(512, { padding: 0.24 }), 512, 512), 512, 512))
+await writeFile(path.join(out, 'icon-maskable-512.png'), await icon(512, 0.24))
 
 // favicon.ico holding 16, 32 and 48 px PNGs, for browsers and tools that only look for it.
 const icoSizes = [16, 32, 48]
-const images = await Promise.all(icoSizes.map((s) => icon(s, { transparentCorners: true })))
+const images = await Promise.all(icoSizes.map((s) => sharp(Buffer.from(squareMark(INK))).resize(s, s).png({ compressionLevel: 9 }).toBuffer()))
 const header = Buffer.alloc(6 + icoSizes.length * 16)
 header.writeUInt16LE(0, 0)
 header.writeUInt16LE(1, 2)
